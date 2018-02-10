@@ -7,9 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		20F01E78202EE56700AE05D6 /* punycode.m in Sources */ = {isa = PBXBuildFile; fileRef = 20F01E77202EE56700AE05D6 /* punycode.m */; };
-		20F01E79202EE56700AE05D6 /* punycode.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 20F01E76202EE56700AE05D6 /* punycode.h */; };
+		20F01E80202EE5AB00AE05D6 /* punycode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F01E7F202EE5AB00AE05D6 /* punycode.swift */; };
+		20F01E88202EE9C700AE05D6 /* punycode_tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F01E87202EE9C700AE05D6 /* punycode_tests.swift */; };
+		20F01E8A202EE9C700AE05D6 /* libpunycode.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 20F01E73202EE56700AE05D6 /* libpunycode.a */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		20F01E8B202EE9C700AE05D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 20F01E6B202EE56700AE05D6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 20F01E72202EE56700AE05D6;
+			remoteInfo = punycode;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		20F01E71202EE56700AE05D6 /* CopyFiles */ = {
@@ -18,7 +29,6 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				20F01E79202EE56700AE05D6 /* punycode.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -26,8 +36,10 @@
 
 /* Begin PBXFileReference section */
 		20F01E73202EE56700AE05D6 /* libpunycode.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libpunycode.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		20F01E76202EE56700AE05D6 /* punycode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = punycode.h; sourceTree = "<group>"; };
-		20F01E77202EE56700AE05D6 /* punycode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = punycode.m; sourceTree = "<group>"; };
+		20F01E7F202EE5AB00AE05D6 /* punycode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = punycode.swift; sourceTree = "<group>"; };
+		20F01E85202EE9C700AE05D6 /* punycode tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "punycode tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		20F01E87202EE9C700AE05D6 /* punycode_tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = punycode_tests.swift; sourceTree = "<group>"; };
+		20F01E89202EE9C700AE05D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +50,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		20F01E82202EE9C700AE05D6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				20F01E8A202EE9C700AE05D6 /* libpunycode.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -45,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				20F01E75202EE56700AE05D6 /* punycode */,
+				20F01E86202EE9C700AE05D6 /* punycode tests */,
 				20F01E74202EE56700AE05D6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -53,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				20F01E73202EE56700AE05D6 /* libpunycode.a */,
+				20F01E85202EE9C700AE05D6 /* punycode tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -60,10 +82,18 @@
 		20F01E75202EE56700AE05D6 /* punycode */ = {
 			isa = PBXGroup;
 			children = (
-				20F01E76202EE56700AE05D6 /* punycode.h */,
-				20F01E77202EE56700AE05D6 /* punycode.m */,
+				20F01E7F202EE5AB00AE05D6 /* punycode.swift */,
 			);
 			path = punycode;
+			sourceTree = "<group>";
+		};
+		20F01E86202EE9C700AE05D6 /* punycode tests */ = {
+			isa = PBXGroup;
+			children = (
+				20F01E87202EE9C700AE05D6 /* punycode_tests.swift */,
+				20F01E89202EE9C700AE05D6 /* Info.plist */,
+			);
+			path = "punycode tests";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -86,16 +116,40 @@
 			productReference = 20F01E73202EE56700AE05D6 /* libpunycode.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		20F01E84202EE9C700AE05D6 /* punycode tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 20F01E8D202EE9C700AE05D6 /* Build configuration list for PBXNativeTarget "punycode tests" */;
+			buildPhases = (
+				20F01E81202EE9C700AE05D6 /* Sources */,
+				20F01E82202EE9C700AE05D6 /* Frameworks */,
+				20F01E83202EE9C700AE05D6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				20F01E8C202EE9C700AE05D6 /* PBXTargetDependency */,
+			);
+			name = "punycode tests";
+			productName = "punycode tests";
+			productReference = 20F01E85202EE9C700AE05D6 /* punycode tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		20F01E6B202EE56700AE05D6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0910;
 				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = "Viktor Chernikov";
 				TargetAttributes = {
 					20F01E72202EE56700AE05D6 = {
+						CreatedOnToolsVersion = 9.1;
+						LastSwiftMigration = 0910;
+						ProvisioningStyle = Automatic;
+					};
+					20F01E84202EE9C700AE05D6 = {
 						CreatedOnToolsVersion = 9.1;
 						ProvisioningStyle = Automatic;
 					};
@@ -114,20 +168,47 @@
 			projectRoot = "";
 			targets = (
 				20F01E72202EE56700AE05D6 /* punycode */,
+				20F01E84202EE9C700AE05D6 /* punycode tests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		20F01E83202EE9C700AE05D6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		20F01E6F202EE56700AE05D6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				20F01E78202EE56700AE05D6 /* punycode.m in Sources */,
+				20F01E80202EE5AB00AE05D6 /* punycode.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		20F01E81202EE9C700AE05D6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				20F01E88202EE9C700AE05D6 /* punycode_tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		20F01E8C202EE9C700AE05D6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 20F01E72202EE56700AE05D6 /* punycode */;
+			targetProxy = 20F01E8B202EE9C700AE05D6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		20F01E7A202EE56700AE05D6 /* Debug */ = {
@@ -237,11 +318,15 @@
 		20F01E7D202EE56700AE05D6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CQ7U6LL9L3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -249,11 +334,45 @@
 		20F01E7E202EE56700AE05D6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CQ7U6LL9L3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		20F01E8E202EE9C700AE05D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CQ7U6LL9L3;
+				INFOPLIST_FILE = "punycode tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.viktorcode.punycode-tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		20F01E8F202EE9C700AE05D6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CQ7U6LL9L3;
+				INFOPLIST_FILE = "punycode tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.viktorcode.punycode-tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -275,6 +394,15 @@
 			buildConfigurations = (
 				20F01E7D202EE56700AE05D6 /* Debug */,
 				20F01E7E202EE56700AE05D6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		20F01E8D202EE9C700AE05D6 /* Build configuration list for PBXNativeTarget "punycode tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				20F01E8E202EE9C700AE05D6 /* Debug */,
+				20F01E8F202EE9C700AE05D6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
