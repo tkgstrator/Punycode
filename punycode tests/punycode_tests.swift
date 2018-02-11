@@ -33,16 +33,17 @@ class punycode_tests: XCTestCase {
 
 	let plain = "\u{002D}\u{003E}\u{0020}\u{0024}\u{0031}\u{002E}\u{0030}\u{0030}\u{0020}\u{003C}\u{002D}"
 	let multiscalar = "🇨🇦"
+	let idna = "погода-в-египте.рф.com"
 
-	let egyptianCode = "-egbpdaj6bu4bxfgehfvwxn"
-	let chineseSimplifiedCode = "-ihqwcrb4cv8a8dqg056pqjye"
-	let chineseTraditionalCode = "-ihqwctvzc91f659drss3x8bo0yb"
+	let egyptianCode = "egbpdaj6bu4bxfgehfvwxn"
+	let chineseSimplifiedCode = "ihqwcrb4cv8a8dqg056pqjye"
+	let chineseTraditionalCode = "ihqwctvzc91f659drss3x8bo0yb"
 	let czechCode = "Proprostnemluvesky-uyb24dma41a"
-	let hebrewCode = "-4dbcagdahymbxekheh6e0a7fei0b"
-	let hindiCode = "-i1baa7eci9glrd9b2ae1bj0hfcgg6iyaf8o0a1dig0cd"
-	let japaneseCode = "-n8jok5ay5dzabd5bym9f0cm5685rrjetr6pdxa"
-	let koreanCode = "-989aomsvi5e83db1d2a355cv1e0vak1dwrv93d5xbh15a0dt30a5jpsd879ccm6fea98c"
-	let russianCode = "-b1abfaaepdrnnbgefbadotcwatmq2g4l"
+	let hebrewCode = "4dbcagdahymbxekheh6e0a7fei0b"
+	let hindiCode = "i1baa7eci9glrd9b2ae1bj0hfcgg6iyaf8o0a1dig0cd"
+	let japaneseCode = "n8jok5ay5dzabd5bym9f0cm5685rrjetr6pdxa"
+	let koreanCode = "989aomsvi5e83db1d2a355cv1e0vak1dwrv93d5xbh15a0dt30a5jpsd879ccm6fea98c"
+	let russianCode = "b1abfaaepdrnnbgefbadotcwatmq2g4l"
 	let spanishCode = "PorqunopuedensimplementehablarenEspaol-fmd56a"
 	let vietnameseCode = "TisaohkhngthchnitingVit-kjcr8268qyxafd2f1b9g"
 
@@ -52,11 +53,12 @@ class punycode_tests: XCTestCase {
 	let jBlockOCode = "2-u9tlzr9756bt3uc0v"
 	let jBlockPCode = "MajiKoi5-783gue6qz075azm5e"
 	let jBlockQCode = "de-jg4avhby1noc0d"
-	let jBlockRCode = "-d9juau41awczczp"
+	let jBlockRCode = "d9juau41awczczp"
 
 	let plainCode = "-> $1.00 <--"
-	let multiscalarCode = "-e77hd"
-	let ASCII = "Hello, world!"
+	let multiscalarCode = "e77hd"
+
+	let idnaCode = "xn-----6kcjcecmb3a1dbkl9b.xn--p1ai.com"
 
     override func setUp() {
         super.setUp()
@@ -91,7 +93,8 @@ class punycode_tests: XCTestCase {
 
 		XCTAssert(multiscalar.punycodeEncoded() == multiscalarCode)
 		XCTAssert(plain.punycodeEncoded() == plainCode)
-		XCTAssert(ASCII.punycodeEncoded() == ASCII)
+
+		XCTAssert(idna.idnaEncoded() == idnaCode)
 	}
 
 	func testDecodingCorrectness() {
@@ -117,6 +120,7 @@ class punycode_tests: XCTestCase {
 
 		XCTAssert(multiscalarCode.punycodeDecoded() == multiscalar)
 		XCTAssert(plainCode.punycodeDecoded() == plain)
-		XCTAssert(ASCII.punycodeDecoded() == ASCII)
+
+		XCTAssert(idnaCode.idnaDecoded() == idna)
 	}
 }

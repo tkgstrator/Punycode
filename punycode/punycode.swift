@@ -22,6 +22,9 @@ fileprivate let digits: ClosedRange<Character> = "0"..."9"
 fileprivate let lettersBase = Character("a").unicodeScalars.first!.value
 fileprivate let digitsBase = Character("0").unicodeScalars.first!.value
 
+// IDNA
+fileprivate let ace = "xn--"
+
 fileprivate func adaptBias(_ delta: Int, _ numberOfPoints: Int, _ firstTime: Bool) -> Int {
 	var delta = delta
 	if firstTime {
@@ -70,14 +73,10 @@ public func decodePunycode(_ punycode: String) -> String? {
 	var output: [Character] = []
 	var inputPosition = punycode.startIndex
 
-	if let delimeterPosition = punycode.lastIndex(of: delimeter) {
+	let delimeterPosition = punycode.lastIndex(of: delimeter) ?? punycode.startIndex;
+	if delimeterPosition > punycode.startIndex {
 		output.append(contentsOf: punycode[..<delimeterPosition])
-		guard delimeterPosition < punycode.endIndex else {
-			return String(output)
-		}
 		inputPosition = punycode.index(after: delimeterPosition)
-	} else {
-		return punycode // The original string is not encoded
 	}
 	var punycodeInput = punycode[inputPosition..<punycode.endIndex]
 	while !punycodeInput.isEmpty {
@@ -111,7 +110,6 @@ public func decodePunycode(_ punycode: String) -> String? {
 	return String(output)
 }
 
-
 /// Encodes string to punycode (RFC 3492)
 ///
 /// - Parameter input: Input string
@@ -121,34 +119,29 @@ public func encodePunycode(_ input: String) -> String? {
 	var delta = 0
 	var bias = initialBias
 	var output = ""
-	var delimeterEncountered = false
 
 	for scalar in input.unicodeScalars {
 		if scalar.isASCII {
 			let char = Character(scalar)
 			output.append(char)
-			if char == delimeter {
-				delimeterEncountered = true
-			}
 		} else if !scalar.isValid {
-			return nil
+			return nil // Encountered a scalar out of acceptible range
 		}
 	}
-	var h = output.count
-	let b = h
-	if output.count == input.count && !delimeterEncountered {
-		return output	// The original string is ASCII
+	var handled = output.count
+	let basic = handled
+	if basic > 0 {
+		output.append(delimeter)
 	}
-	output.append(delimeter)
 
-	while h < input.unicodeScalars.count {
+	while handled < input.unicodeScalars.count {
 		var minimumCodepoint = 0x10FFFF
 		for scalar in input.unicodeScalars {
 			if scalar.value < minimumCodepoint && scalar.value >= n {
 				minimumCodepoint = Int(scalar.value)
 			}
 		}
-		delta += (minimumCodepoint - n) * (h + 1)
+		delta += (minimumCodepoint - n) * (handled + 1)
 		n = minimumCodepoint
 		for scalar in input.unicodeScalars {
 			if scalar.value < n {
@@ -161,22 +154,16 @@ public func encodePunycode(_ input: String) -> String? {
 					if q < t {
 						break
 					}
-					if let character = punycodeValue(for: t + ((q - t) % (base - t))) {
-						output.append(character)
-					} else {
-						return nil
-					}
+					guard let character = punycodeValue(for: t + ((q - t) % (base - t))) else { return nil }
+					output.append(character)
 					q = (q - t) / (base - t)
 					k += base
 				}
-				if let character = punycodeValue(for: q) {
-					output.append(character)
-				} else {
-					return nil
-				}
-				bias = adaptBias(delta, h + 1, h == b)
+				guard let character = punycodeValue(for: q) else { return nil }
+				output.append(character)
+				bias = adaptBias(delta, handled + 1, handled == basic)
 				delta = 0
-				h += 1
+				handled += 1
 			}
 		}
 		delta += 1
@@ -186,21 +173,61 @@ public func encodePunycode(_ input: String) -> String? {
 	return output
 }
 
-extension String {
+public extension String {
 
-	/// Returns a copy of string in punycode encoding (RFC 3492)
+	/// Returns new string in punycode encoding (RFC 3492)
 	///
 	/// - Returns: Punycode encoded string or nil if the string can't be encoded
-	public func punycodeEncoded() -> String? {
+	func punycodeEncoded() -> String? {
 		return encodePunycode(self)
 	}
 
 
-	/// Returns a copy of string decoded from punycode representation (RFC 3492)
+	/// Returns new string decoded from punycode representation (RFC 3492)
 	///
 	/// - Returns: Original string or nil if the string doesn't contain correct encoding
-	public func punycodeDecoded() -> String? {
+	func punycodeDecoded() -> String? {
 		return decodePunycode(self)
+	}
+
+	/// Returns new string containing IDNA-encoded hostname
+	///
+	/// - Returns: IDNA encoded hostname or nil if the string can't be encoded
+	func idnaEncoded() -> String? {
+		let parts = self.split(separator: ".")
+		var output = ""
+		for part in parts {
+			if output.count > 0 {
+				output.append(".")
+			}
+			if part.rangeOfCharacter(from: CharacterSet.urlHostAllowed.inverted) != nil {
+				guard let encoded = String(part).lowercased().punycodeEncoded() else { return nil }
+				output += ace + encoded
+			} else {
+				output += part
+			}
+		}
+		return output
+	}
+
+	/// Returns new string containing hostname decoded from IDNA representation
+	///
+	/// - Returns: Original hostname or nil if the string doesn't contain correct encoding
+	func idnaDecoded() -> String? {
+		let parts = self.split(separator: ".")
+		var output = ""
+		for part in parts {
+			if output.count > 0 {
+				output.append(".")
+			}
+			if part.hasPrefix(ace) {
+				guard let decoded = String(part.dropFirst(ace.count)).punycodeDecoded() else { return nil }
+				output += decoded
+			} else {
+				output += part
+			}
+		}
+		return output
 	}
 }
 
