@@ -66,7 +66,7 @@ fileprivate func punycodeValue(for digit: Int) -> Character? {
 ///
 /// - Parameter punycode: Punycode encoding (RFC 3492)
 /// - Returns: Decoded string or nil if the input cannot be decoded
-public func decodePunycode(_ punycode: String) -> String? {
+fileprivate func decodePunycode(_ punycode: Substring) -> String? {
 	var n = initialN
 	var i = 0
 	var bias = initialBias
@@ -114,7 +114,7 @@ public func decodePunycode(_ punycode: String) -> String? {
 ///
 /// - Parameter input: Input string
 /// - Returns: Punycode encoded string
-public func encodePunycode(_ input: String) -> String? {
+fileprivate func encodePunycode(_ input: Substring) -> String? {
 	var n = initialN
 	var delta = 0
 	var bias = initialBias
@@ -173,8 +173,8 @@ public func encodePunycode(_ input: String) -> String? {
 	return output
 }
 
-public extension String {
-
+// For calling site convenience everything is implemented over Substring and String API is wrapped around it
+public extension Substring {
 	/// Returns new string in punycode encoding (RFC 3492)
 	///
 	/// - Returns: Punycode encoded string or nil if the string can't be encoded
@@ -201,7 +201,7 @@ public extension String {
 				output.append(".")
 			}
 			if part.rangeOfCharacter(from: CharacterSet.urlHostAllowed.inverted) != nil {
-				guard let encoded = String(part).lowercased().punycodeEncoded() else { return nil }
+				guard let encoded = part.lowercased().punycodeEncoded() else { return nil }
 				output += ace + encoded
 			} else {
 				output += part
@@ -221,7 +221,7 @@ public extension String {
 				output.append(".")
 			}
 			if part.hasPrefix(ace) {
-				guard let decoded = String(part.dropFirst(ace.count)).punycodeDecoded() else { return nil }
+				guard let decoded = part.dropFirst(ace.count).punycodeDecoded() else { return nil }
 				output += decoded
 			} else {
 				output += part
@@ -231,8 +231,40 @@ public extension String {
 	}
 }
 
+public extension String {
+
+	/// Returns new string in punycode encoding (RFC 3492)
+	///
+	/// - Returns: Punycode encoded string or nil if the string can't be encoded
+	func punycodeEncoded() -> String? {
+		return encodePunycode(self[..<self.endIndex])
+	}
+
+
+	/// Returns new string decoded from punycode representation (RFC 3492)
+	///
+	/// - Returns: Original string or nil if the string doesn't contain correct encoding
+	func punycodeDecoded() -> String? {
+		return decodePunycode(self[..<self.endIndex])
+	}
+
+	/// Returns new string containing IDNA-encoded hostname
+	///
+	/// - Returns: IDNA encoded hostname or nil if the string can't be encoded
+	func idnaEncoded() -> String? {
+		return self[..<self.endIndex].idnaEncoded()
+	}
+
+	/// Returns new string containing hostname decoded from IDNA representation
+	///
+	/// - Returns: Original hostname or nil if the string doesn't contain correct encoding
+	func idnaDecoded() -> String? {
+		return self[..<self.endIndex].idnaDecoded()
+	}
+}
+
 // Helpers
-extension String {
+extension Substring {
 
 	fileprivate func lastIndex(of element: Character) -> String.Index? {
 		var position = endIndex
