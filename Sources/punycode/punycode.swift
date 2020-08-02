@@ -3,7 +3,6 @@
 //
 //  Created by Viktor Chernikov on 10/02/2018.
 //  Copyright © 2018 Viktor Chernikov. All rights reserved.
-// 	Swift 4
 
 import Foundation
 
