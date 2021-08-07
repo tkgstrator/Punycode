@@ -8,4 +8,4 @@ Usage:
 
 You can also use Punycode directly to encode / decode any unicode string:
 
-    "e77hd".PunycodeDecoded()               // returns Canadian flag emoji
+    "e77hd".punycodeDecoded()               // returns Canadian flag emoji

@@ -177,7 +177,7 @@ public extension Substring {
 	/// Returns new string in Punycode encoding (RFC 3492)
 	///
 	/// - Returns: Punycode encoded string or nil if the string can't be encoded
-	func PunycodeEncoded() -> String? {
+	func punycodeEncoded() -> String? {
 		return encodePunycode(self)
 	}
 
@@ -185,7 +185,7 @@ public extension Substring {
 	/// Returns new string decoded from Punycode representation (RFC 3492)
 	///
 	/// - Returns: Original string or nil if the string doesn't contain correct encoding
-	func PunycodeDecoded() -> String? {
+	func punycodeDecoded() -> String? {
 		return decodePunycode(self)
 	}
 
@@ -200,7 +200,7 @@ public extension Substring {
 				output.append(".")
 			}
 			if part.rangeOfCharacter(from: CharacterSet.urlHostAllowed.inverted) != nil {
-				guard let encoded = part.lowercased().PunycodeEncoded() else { return nil }
+				guard let encoded = part.lowercased().punycodeEncoded() else { return nil }
 				output += ace + encoded
 			} else {
 				output += part
@@ -220,7 +220,7 @@ public extension Substring {
 				output.append(".")
 			}
 			if part.hasPrefix(ace) {
-				guard let decoded = part.dropFirst(ace.count).PunycodeDecoded() else { return nil }
+				guard let decoded = part.dropFirst(ace.count).punycodeDecoded() else { return nil }
 				output += decoded
 			} else {
 				output += part
@@ -235,7 +235,7 @@ public extension String {
 	/// Returns new string in Punycode encoding (RFC 3492)
 	///
 	/// - Returns: Punycode encoded string or nil if the string can't be encoded
-	func PunycodeEncoded() -> String? {
+	func punycodeEncoded() -> String? {
 		return encodePunycode(self[..<self.endIndex])
 	}
 
@@ -243,7 +243,7 @@ public extension String {
 	/// Returns new string decoded from Punycode representation (RFC 3492)
 	///
 	/// - Returns: Original string or nil if the string doesn't contain correct encoding
-	func PunycodeDecoded() -> String? {
+	func punycodeDecoded() -> String? {
 		return decodePunycode(self[..<self.endIndex])
 	}
 
