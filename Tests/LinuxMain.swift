@@ -1,7 +1,7 @@
 import XCTest
 
-import punycodeTests
+import PunycodeTests
 
 var tests = [XCTestCaseEntry]()
-tests += punycodeTests.allTests()
+tests += PunycodeTests.allTests()
 XCTMain(tests)

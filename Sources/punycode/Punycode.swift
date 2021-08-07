@@ -40,8 +40,8 @@ fileprivate func adaptBias(_ delta: Int, _ numberOfPoints: Int, _ firstTime: Boo
 	return k + ((base - tMin + 1) * delta) / (delta + skew)
 }
 
-/// Maps a punycode character to index
-fileprivate func punycodeIndex(for character: Character) -> Int? {
+/// Maps a Punycode character to index
+fileprivate func PunycodeIndex(for character: Character) -> Int? {
 	if lowercase.contains(character) {
 		return Int(character.unicodeScalars.first!.value - lettersBase)
 	} else if digits.contains(character) {
@@ -51,8 +51,8 @@ fileprivate func punycodeIndex(for character: Character) -> Int? {
 	}
 }
 
-/// Maps an index to corresponding punycode character
-fileprivate func punycodeValue(for digit: Int) -> Character? {
+/// Maps an index to corresponding Punycode character
+fileprivate func PunycodeValue(for digit: Int) -> Character? {
 	guard digit < base else { return nil }
 	if digit < 26 {
 		return Character(UnicodeScalar(lettersBase.advanced(by: digit))!)
@@ -61,31 +61,31 @@ fileprivate func punycodeValue(for digit: Int) -> Character? {
 	}
 }
 
-/// Decodes punycode encoded string to original representation
+/// Decodes Punycode encoded string to original representation
 ///
-/// - Parameter punycode: Punycode encoding (RFC 3492)
+/// - Parameter Punycode: Punycode encoding (RFC 3492)
 /// - Returns: Decoded string or nil if the input cannot be decoded
-fileprivate func decodePunycode(_ punycode: Substring) -> String? {
+fileprivate func decodePunycode(_ Punycode: Substring) -> String? {
 	var n = initialN
 	var i = 0
 	var bias = initialBias
 	var output: [Character] = []
-	var inputPosition = punycode.startIndex
+	var inputPosition = Punycode.startIndex
 
-	let delimeterPosition = punycode.lastIndex(of: delimeter) ?? punycode.startIndex;
-	if delimeterPosition > punycode.startIndex {
-		output.append(contentsOf: punycode[..<delimeterPosition])
-		inputPosition = punycode.index(after: delimeterPosition)
+	let delimeterPosition = Punycode.lastIndex(of: delimeter) ?? Punycode.startIndex;
+	if delimeterPosition > Punycode.startIndex {
+		output.append(contentsOf: Punycode[..<delimeterPosition])
+		inputPosition = Punycode.index(after: delimeterPosition)
 	}
-	var punycodeInput = punycode[inputPosition..<punycode.endIndex]
-	while !punycodeInput.isEmpty {
+	var PunycodeInput = Punycode[inputPosition..<Punycode.endIndex]
+	while !PunycodeInput.isEmpty {
 		let oldI = i
 		var w = 1
 		var k = base
 		while true {
-			let character = punycodeInput.removeFirst()
-			guard let digit = punycodeIndex(for: character) else {
-				return nil    // Failing on badly formatted punycode
+			let character = PunycodeInput.removeFirst()
+			guard let digit = PunycodeIndex(for: character) else {
+				return nil    // Failing on badly formatted Punycode
 			}
 
 			i += digit * w
@@ -109,7 +109,7 @@ fileprivate func decodePunycode(_ punycode: Substring) -> String? {
 	return String(output)
 }
 
-/// Encodes string to punycode (RFC 3492)
+/// Encodes string to Punycode (RFC 3492)
 ///
 /// - Parameter input: Input string
 /// - Returns: Punycode encoded string
@@ -153,12 +153,12 @@ fileprivate func encodePunycode(_ input: Substring) -> String? {
 					if q < t {
 						break
 					}
-					guard let character = punycodeValue(for: t + ((q - t) % (base - t))) else { return nil }
+					guard let character = PunycodeValue(for: t + ((q - t) % (base - t))) else { return nil }
 					output.append(character)
 					q = (q - t) / (base - t)
 					k += base
 				}
-				guard let character = punycodeValue(for: q) else { return nil }
+				guard let character = PunycodeValue(for: q) else { return nil }
 				output.append(character)
 				bias = adaptBias(delta, handled + 1, handled == basic)
 				delta = 0
@@ -174,18 +174,18 @@ fileprivate func encodePunycode(_ input: Substring) -> String? {
 
 // For calling site convenience everything is implemented over Substring and String API is wrapped around it
 public extension Substring {
-	/// Returns new string in punycode encoding (RFC 3492)
+	/// Returns new string in Punycode encoding (RFC 3492)
 	///
 	/// - Returns: Punycode encoded string or nil if the string can't be encoded
-	func punycodeEncoded() -> String? {
+	func PunycodeEncoded() -> String? {
 		return encodePunycode(self)
 	}
 
 
-	/// Returns new string decoded from punycode representation (RFC 3492)
+	/// Returns new string decoded from Punycode representation (RFC 3492)
 	///
 	/// - Returns: Original string or nil if the string doesn't contain correct encoding
-	func punycodeDecoded() -> String? {
+	func PunycodeDecoded() -> String? {
 		return decodePunycode(self)
 	}
 
@@ -200,7 +200,7 @@ public extension Substring {
 				output.append(".")
 			}
 			if part.rangeOfCharacter(from: CharacterSet.urlHostAllowed.inverted) != nil {
-				guard let encoded = part.lowercased().punycodeEncoded() else { return nil }
+				guard let encoded = part.lowercased().PunycodeEncoded() else { return nil }
 				output += ace + encoded
 			} else {
 				output += part
@@ -220,7 +220,7 @@ public extension Substring {
 				output.append(".")
 			}
 			if part.hasPrefix(ace) {
-				guard let decoded = part.dropFirst(ace.count).punycodeDecoded() else { return nil }
+				guard let decoded = part.dropFirst(ace.count).PunycodeDecoded() else { return nil }
 				output += decoded
 			} else {
 				output += part
@@ -232,18 +232,18 @@ public extension Substring {
 
 public extension String {
 
-	/// Returns new string in punycode encoding (RFC 3492)
+	/// Returns new string in Punycode encoding (RFC 3492)
 	///
 	/// - Returns: Punycode encoded string or nil if the string can't be encoded
-	func punycodeEncoded() -> String? {
+	func PunycodeEncoded() -> String? {
 		return encodePunycode(self[..<self.endIndex])
 	}
 
 
-	/// Returns new string decoded from punycode representation (RFC 3492)
+	/// Returns new string decoded from Punycode representation (RFC 3492)
 	///
 	/// - Returns: Original string or nil if the string doesn't contain correct encoding
-	func punycodeDecoded() -> String? {
+	func PunycodeDecoded() -> String? {
 		return decodePunycode(self[..<self.endIndex])
 	}
 

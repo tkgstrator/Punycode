@@ -1,7 +1,7 @@
 import XCTest
-@testable import punycode
+@testable import Punycode
 
-final class punycodeTests: XCTestCase {
+final class PunycodeTests: XCTestCase {
     let egyptian =     "\u{0644}\u{064A}\u{0647}\u{0645}\u{0627}\u{0628}\u{062A}\u{0643}\u{0644}\u{0645}\u{0648}\u{0634}\u{0639}\u{0631}\u{0628}\u{064A}\u{061F}"
     let chineseSimplified = "\u{4ED6}\u{4EEC}\u{4E3A}\u{4EC0}\u{4E48}\u{4E0D}\u{8BF4}\u{4E2D}\u{6587}"
     let chineseTraditional = "\u{4ED6}\u{5011}\u{7232}\u{4EC0}\u{9EBD}\u{4E0D}\u{8AAA}\u{4E2D}\u{6587}"
@@ -62,55 +62,55 @@ final class punycodeTests: XCTestCase {
     }
 
     func testEncodingCorrectness() {
-        XCTAssert(egyptian.punycodeEncoded() == egyptianCode)
-        XCTAssert(chineseSimplified.punycodeEncoded() == chineseSimplifiedCode)
-        XCTAssert(chineseTraditional.punycodeEncoded() == chineseTraditionalCode)
-        XCTAssert(czech.punycodeEncoded() == czechCode)
-        XCTAssert(hebrew.punycodeEncoded() == hebrewCode)
-        XCTAssert(hindi.punycodeEncoded() == hindiCode)
-        XCTAssert(japanese.punycodeEncoded() == japaneseCode)
-        XCTAssert(korean.punycodeEncoded() == koreanCode)
-        XCTAssert(russian.punycodeEncoded() == russianCode)
-        XCTAssert(spanish.punycodeEncoded() == spanishCode)
-        XCTAssert(vietnamese.punycodeEncoded() == vietnameseCode)
+        XCTAssert(egyptian.PunycodeEncoded() == egyptianCode)
+        XCTAssert(chineseSimplified.PunycodeEncoded() == chineseSimplifiedCode)
+        XCTAssert(chineseTraditional.PunycodeEncoded() == chineseTraditionalCode)
+        XCTAssert(czech.PunycodeEncoded() == czechCode)
+        XCTAssert(hebrew.PunycodeEncoded() == hebrewCode)
+        XCTAssert(hindi.PunycodeEncoded() == hindiCode)
+        XCTAssert(japanese.PunycodeEncoded() == japaneseCode)
+        XCTAssert(korean.PunycodeEncoded() == koreanCode)
+        XCTAssert(russian.PunycodeEncoded() == russianCode)
+        XCTAssert(spanish.PunycodeEncoded() == spanishCode)
+        XCTAssert(vietnamese.PunycodeEncoded() == vietnameseCode)
 
-        XCTAssert(jBlockL.punycodeEncoded() == jBlockLCode)
-        XCTAssert(jBlockM.punycodeEncoded() == jBlockMCode)
-        XCTAssert(jBlockN.punycodeEncoded() == jBlockNCode)
-        XCTAssert(jBlockO.punycodeEncoded() == jBlockOCode)
-        XCTAssert(jBlockP.punycodeEncoded() == jBlockPCode)
-        XCTAssert(jBlockQ.punycodeEncoded() == jBlockQCode)
-        XCTAssert(jBlockR.punycodeEncoded() == jBlockRCode)
+        XCTAssert(jBlockL.PunycodeEncoded() == jBlockLCode)
+        XCTAssert(jBlockM.PunycodeEncoded() == jBlockMCode)
+        XCTAssert(jBlockN.PunycodeEncoded() == jBlockNCode)
+        XCTAssert(jBlockO.PunycodeEncoded() == jBlockOCode)
+        XCTAssert(jBlockP.PunycodeEncoded() == jBlockPCode)
+        XCTAssert(jBlockQ.PunycodeEncoded() == jBlockQCode)
+        XCTAssert(jBlockR.PunycodeEncoded() == jBlockRCode)
 
-        XCTAssert(multiscalar.punycodeEncoded() == multiscalarCode)
-        XCTAssert(plain.punycodeEncoded() == plainCode)
+        XCTAssert(multiscalar.PunycodeEncoded() == multiscalarCode)
+        XCTAssert(plain.PunycodeEncoded() == plainCode)
 
         XCTAssert(idna.idnaEncoded() == idnaCode)
     }
 
     func testDecodingCorrectness() {
-        XCTAssert(egyptianCode.punycodeDecoded() == egyptian)
-        XCTAssert(chineseSimplifiedCode.punycodeDecoded() == chineseSimplified)
-        XCTAssert(chineseTraditionalCode.punycodeDecoded() == chineseTraditional)
-        XCTAssert(czechCode.punycodeDecoded() == czech)
-        XCTAssert(hebrewCode.punycodeDecoded() == hebrew)
-        XCTAssert(hindiCode.punycodeDecoded() == hindi)
-        XCTAssert(japaneseCode.punycodeDecoded() == japanese)
-        XCTAssert(koreanCode.punycodeDecoded() == korean)
-        XCTAssert(russianCode.punycodeDecoded() == russian)
-        XCTAssert(spanishCode.punycodeDecoded() == spanish)
-        XCTAssert(vietnameseCode.punycodeDecoded() == vietnamese)
+        XCTAssert(egyptianCode.PunycodeDecoded() == egyptian)
+        XCTAssert(chineseSimplifiedCode.PunycodeDecoded() == chineseSimplified)
+        XCTAssert(chineseTraditionalCode.PunycodeDecoded() == chineseTraditional)
+        XCTAssert(czechCode.PunycodeDecoded() == czech)
+        XCTAssert(hebrewCode.PunycodeDecoded() == hebrew)
+        XCTAssert(hindiCode.PunycodeDecoded() == hindi)
+        XCTAssert(japaneseCode.PunycodeDecoded() == japanese)
+        XCTAssert(koreanCode.PunycodeDecoded() == korean)
+        XCTAssert(russianCode.PunycodeDecoded() == russian)
+        XCTAssert(spanishCode.PunycodeDecoded() == spanish)
+        XCTAssert(vietnameseCode.PunycodeDecoded() == vietnamese)
 
-        XCTAssert(jBlockLCode.punycodeDecoded() == jBlockL)
-        XCTAssert(jBlockMCode.punycodeDecoded() == jBlockM)
-        XCTAssert(jBlockNCode.punycodeDecoded() == jBlockN)
-        XCTAssert(jBlockOCode.punycodeDecoded() == jBlockO)
-        XCTAssert(jBlockPCode.punycodeDecoded() == jBlockP)
-        XCTAssert(jBlockQCode.punycodeDecoded() == jBlockQ)
-        XCTAssert(jBlockRCode.punycodeDecoded() == jBlockR)
+        XCTAssert(jBlockLCode.PunycodeDecoded() == jBlockL)
+        XCTAssert(jBlockMCode.PunycodeDecoded() == jBlockM)
+        XCTAssert(jBlockNCode.PunycodeDecoded() == jBlockN)
+        XCTAssert(jBlockOCode.PunycodeDecoded() == jBlockO)
+        XCTAssert(jBlockPCode.PunycodeDecoded() == jBlockP)
+        XCTAssert(jBlockQCode.PunycodeDecoded() == jBlockQ)
+        XCTAssert(jBlockRCode.PunycodeDecoded() == jBlockR)
 
-        XCTAssert(multiscalarCode.punycodeDecoded() == multiscalar)
-        XCTAssert(plainCode.punycodeDecoded() == plain)
+        XCTAssert(multiscalarCode.PunycodeDecoded() == multiscalar)
+        XCTAssert(plainCode.PunycodeDecoded() == plain)
 
         XCTAssert(idnaCode.idnaDecoded() == idna)
     }
